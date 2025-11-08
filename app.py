@@ -1,6 +1,6 @@
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
-from llama_index.llms.openai import OpenAI
+from llama_index.llms.anthropic import Anthropic
 from dotenv import load_dotenv
 import os
 
@@ -12,8 +12,12 @@ print("🚀 Starting RAG...")
 embed_model = HuggingFaceEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
 Settings.embed_model = embed_model
 
-# OpenAI for generation (pennies per query)
-llm = OpenAI(model="gpt-3.5-turbo", api_key=os.getenv("OPENAI_API_KEY"))
+# Claude for generation
+print("🔧 Using Claude (Anthropic) for generation...")
+llm = Anthropic(
+    model="claude-3-5-haiku-20241022",  # Claude Model
+    api_key=os.getenv("ANTHROPIC_API_KEY")
+)
 Settings.llm = llm
 
 # Load only test docs
